@@ -1,4 +1,5 @@
 use actix_web::{web, App, HttpServer};
+use actix_cors::Cors; // Importe a biblioteca Cors
 use std::sync::{Arc, Mutex};
 
 mod database;
@@ -13,7 +14,8 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(conn.clone())) // Corrige o uso do app_data
+            .app_data(web::Data::new(conn.clone())) 
+            .wrap(Cors::permissive()) // Adicione o middleware Cors
             .configure(routes::configure_routes)
     })
     .bind("127.0.0.1:8080")?

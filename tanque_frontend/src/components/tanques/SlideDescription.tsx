@@ -1,12 +1,10 @@
-// /home/rpz/code/tanques-de-guerra-russos/src/components/tanques/SlideDescription.tsx
-// SlideDescription.tsx
-
+// /home/rpz/code/tanque-fullstack/tanque_frontend/src/components/tanques/SlideDescription.tsx
 import React from 'react';
 import styles from '../../styles/SlideDescription.module.css'; // Importa o arquivo CSS
 
 interface SlideDescriptionProps {
   title: string;
-  description: string
+  description: string;
 }
 
 const SlideDescription: React.FC<SlideDescriptionProps> = ({ title, description }) => {

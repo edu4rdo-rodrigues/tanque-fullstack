@@ -1,3 +1,4 @@
+// /home/rpz/code/tanque-fullstack/tanque_frontend/src/components/tanques/CarouselTanques.tsx
 // /home/rpz/code/tanques-de-guerra-russos/src/components/tanques/CarouselTanques.tsx
 
 import React, { useRef, useState, useEffect } from "react";
@@ -23,7 +24,7 @@ const CarouselTanques: React.FC<CarouselTanquesProps> = ({ setCurrentIndex }) =>
   };
 
   useEffect(() => {
-    if (carouselRef.current) {
+    if (carouselRef.current && carouselRef.current.children.length > 0) {
       const slideWidth = carouselRef.current.children[0].clientWidth;
       carouselRef.current.scrollTo({ left: currentIndex * slideWidth, behavior: 'smooth' });
     }
@@ -33,6 +34,60 @@ const CarouselTanques: React.FC<CarouselTanquesProps> = ({ setCurrentIndex }) =>
     setCurrentIndex(currentIndex); // Atualiza o índice do slide pai quando o estado muda
   }, [currentIndex, setCurrentIndex]);
 
+
+
+  // Mantenha os estados para os dados dos tanques
+  const [tankData, setTankData] = useState<Array<{ img: string; title: any; }>>([]);
+  const [tankImageData, setTankImageData] = useState<any | null>(null);
+  const [tanknameData, setTankNameData] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  
+  // Busque os dados de todas as imagens e nomes dos tanques
+  useEffect(() => {
+    const fetchTankData = async () => {
+      try {
+        const imagePromises = [];
+        const namePromises = [];
+
+        // Busque os dados de todas as imagens e nomes dos tanques
+        for (let i = 1; i <= slides.length; i++) {
+          imagePromises.push(fetch(`http://127.0.0.1:8080/api/images/${i}`, { method: 'GET' }));
+          namePromises.push(fetch(`http://127.0.0.1:8080/api/tankname/${i}`));
+        }
+
+        // Espere todas as solicitações completarem
+        const imageResponses = await Promise.all(imagePromises);
+        const nameResponses = await Promise.all(namePromises);
+
+        // Extraia os dados das respostas
+        const tankData = [];
+        for (let i = 0; i < slides.length; i++) {
+          const imageRes = imageResponses[i];
+          const nameRes = nameResponses[i];
+
+          const blob = await imageRes.blob();
+          const imgUrl = URL.createObjectURL(blob);
+          const tankName = await nameRes.json();
+
+          tankData.push({ img: imgUrl, title: tankName });
+        }
+
+        // Atualize o estado com os dados dos tanques
+        setTankData(tankData);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to fetch tank data');
+        setLoading(false);
+      }
+    };
+
+    fetchTankData();
+  }, []);
+
+
   return (
     <>
       <div className={styles.carouselContainer}>
@@ -40,17 +95,15 @@ const CarouselTanques: React.FC<CarouselTanquesProps> = ({ setCurrentIndex }) =>
           &#10094;
         </button>
         <div className={styles.carousel} ref={carouselRef}>
-          {slides.map((slide, index) => (
+          {tankData.map((tank, index) => (
             <div
               key={index}
               className={`${styles.slide} ${index === currentIndex ? styles.active : styles.inactive}`}
             >
-              <SlideTanque img={slide.img} title={slide.title} />
-              {index === currentIndex && (
-                <SlideDescription title={slide.title} description={slide.description} />
-              )}
+              <SlideTanque img={tank.img} title={tank.title} />
             </div>
           ))}
+
         </div>
         <button className={`${styles.button} ${styles.next}`} onClick={nextSlide}>
           &#10095;

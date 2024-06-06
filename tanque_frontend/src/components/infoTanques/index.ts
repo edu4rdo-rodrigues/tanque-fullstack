@@ -1,5 +1,6 @@
+// /home/rpz/code/tanque-fullstack/tanque_frontend/src/components/infoTanques/index.ts
 // /home/rpz/code/tanques-de-guerra-russos/src/components/infoTanques/index.ts
-import ImgTanqueT72BM from "../../../public/imgs-tanques-russos/T-72BM.jpg"
+import ImgTanqueT72BM from "../../../public/imgs-tanques-russos/T-72BM.jpeg"
 import ImgTanqueT80 from "../../../public/imgs-tanques-russos/T-80.jpg"
 import ImgTanqueT90A from "../../../public/imgs-tanques-russos/T-90A.jpg"
 import ImgTanqueT14 from "../../../public/imgs-tanques-russos/T-14.jpg"

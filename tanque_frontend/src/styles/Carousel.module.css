@@ -1,3 +1,4 @@
+/* /home/rpz/code/tanque-fullstack/tanque_frontend/src/styles/Carousel.module.css */
 /* /home/rpz/code/tanques-de-guerra-russos/src/styles/Carousel.module.css */
 .carouselContainer {
   position: relative;
@@ -46,8 +47,9 @@
 }
 
 .slideContent {
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: auto;
   padding: 20px;
   box-sizing: border-box;
   display: flex;
@@ -57,11 +59,17 @@
 
 .slideImage {
   width: 100%;
-  height: 100%;
+  height: auto;
   position: relative;
   border-radius: 10px;
   overflow: hidden;
   transition: box-shadow 0.5s; /* Adiciona transição suave ao box-shadow */
+}
+
+.slideImage img {
+  width: 100%;
+  height: auto;
+  position: relative;
 }
 
 .active .slideImage {

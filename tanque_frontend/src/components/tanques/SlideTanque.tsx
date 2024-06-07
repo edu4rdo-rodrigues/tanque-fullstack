@@ -20,7 +20,14 @@ const SlideTanque: React.FC<SlideProps> = ({ img, title }) => {
   return (
     <div className={styles.slideContent}>
       <div className={styles.slideImage}>
-        <Image src={img} layout="responsive" objectFit="cover" alt={title} width={500} height={300} />
+        <Image 
+          src={img} 
+          //layout="responsive" 
+          objectFit="cover" 
+          alt={title} 
+          width={500} 
+          height={300} 
+        />
       </div>
       <p className={styles.title}>{title}</p>
     </div>
